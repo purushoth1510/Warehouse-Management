@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warehouse Inventory Management</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-warehouse"></i> Warehouse Manager</h1>
+      <p class="subtitle">Track your inventory in real-time</p>
+    </div>
+    
+    <div class="card">
+      <h2><i class="fas fa-plus-circle"></i> Add New Item</h2>
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-box"></i>
+          <input type="text" id="itemName" placeholder="Item Name" required />
+        </div>
+        <div class="input-group">
+          <i class="fas fa-hashtag"></i>
+          <input type="number" id="itemQty" placeholder="Quantity" required />
+        </div>
+        <div class="input-group">
+          <i class="fas fa-tag"></i>
+          <input type="text" id="itemCategory" placeholder="Category" required />
+        </div>
+        <button onclick="addItem()" class="btn-primary">
+          <i class="fas fa-save"></i> Add Item
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-clipboard-list"></i> Current Inventory</h2>
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search items..." />
+      </div>
+      <div class="table-container">
+        <table id="inventoryList">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Items will appear here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
