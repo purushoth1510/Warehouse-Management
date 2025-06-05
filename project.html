@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Warehouse Inventory Management</title>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f9f9f9;
+}
+.container {
+max-width: 800px;
+margin: 40px auto;
+padding: 20px;
+background-color: #ffffff;
+border-radius: 12px;
+box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+h2 {
+text-align: center;
+color: #333;
+}
+
+.form-group {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+margin-bottom: 20px;
+}
+.form-group input {
+flex: 1 1 30%;
+padding: 10px;
+margin: 5px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 6px;
+}
+.form-group button {
+flex: 1 1 100%;
+padding: 12px;
+margin: 5px;
+background-color: #007bff;
+color: white;
+border: none;
+font-size: 16px;
+border-radius: 6px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+.form-group button:hover {
+background-color: #0056b3;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+}
+table, th, td {
+border: 1px solid #e0e0e0;
+}
+th, td {
+padding: 12px;
+text-align: center;
+}
+th {
+background-color: #f1f1f1;
+font-weight: bold;
+}
+@media (max-width: 600px) {
+.form-group input {
+flex: 1 1 100%;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Warehouse Inventory Management</h2>
+<div class="form-group">
+<input type="text" id="itemName" placeholder="Item Name" required />
+<input type="number" id="itemQty" placeholder="Quantity" required />
+<input type="text" id="itemCategory" placeholder="Category" required />
+<button onclick="addItem()">Add Item</button>
+</div>
+<table id="inventoryList">
+<thead>
+<tr>
+<th>Item</th>
+<th>Quantity</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody id="tableBody">
+<!-- Items will appear here -->
+</tbody>
+</table>
+</div>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBQ-MS0oFBVRQHwfTqkxD907SG_MCYYMDA",
+  authDomain: "warehouse-management-3731e.firebaseapp.com",
+  projectId: "warehouse-management-3731e",
+  storageBucket: "warehouse-management-3731e.firebasestorage.app",
+  messagingSenderId: "769694856376",
+  appId: "1:769694856376:web:c59c05318471ba3964b04d",
+  measurementId: "G-X6QFQQZQ44"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+// Add item to Firebase
+function addItem() {
+const name = document.getElementById('itemName').value;
+const qty = document.getElementById('itemQty').value;
+const category = document.getElementById('itemCategory').value;
+if (name && qty && category) {
+const itemRef = db.ref('inventory').push();
+itemRef.set({
+name: name,
+quantity: parseInt(qty),
+category: category
+});
+// Clear inputs
+document.getElementById('itemName').value = '';
+document.getElementById('itemQty').value = '';
+document.getElementById('itemCategory').value = '';
+} else {
+alert("Please fill in all fields.");
+}
+}
+// Load items from Firebase
+db.ref('inventory').on('value', snapshot => {
+const tbody = document.getElementById('tableBody');
+tbody.innerHTML = '';
+snapshot.forEach(childSnapshot => {
+const item = childSnapshot.val();
+const row = `
+<tr>
+<td>${item.name}</td>
+<td>${item.quantity}</td>
+<td>${item.category}</td>
+</tr>`;
+tbody.innerHTML += row;
+});
+});
+</script>
+</body>
+</html>
